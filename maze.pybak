@@ -10,8 +10,30 @@ class Maze(object):
     self.t=makeTurtle(self.w)
     penUp(self.t)
     moveTo(self.t,30,190)
-  def colorInFront(self.t):
-    """tests to see color in front of turtle"""
+    turnLeft(self.t)
+    forward(self.t,6)
+  def colorInFront(self): 
+    if self.t.getHeading()==0:
+      color=getColor(getPixelAt(self.image,getXPos(self.t),getYPos(self.t)-11))
+    if self.t.getHeading()==90 or self.t.getHeading()==-270:
+      color=getColor(getPixelAt(self.image,getXPos(self.t)+11,getYPos(self.t)))
+    if self.t.getHeading()==180 or self.t.getHeading()==-180:
+      color=getColor(getPixelAt(self.image,getXPos(self.t),getYPos(self.t)+11))
+    if self.t.getHeading()==270 or self.t.getHeading()==-90:
+      color=getColor(getPixelAt(self.image,getXPos(self.t)-11,getYPos(self.t)))
+    if distance(color,white)<150:
+      color=white
+    if distance(color,blue)<160:
+      color=blue
+    if distance(color,green)<150:
+      color=green
+    if distance(color,red)<150:
+      color=red
+    if distance(color,yellow)<150:
+      color=yellow
+    return color
+  
+     
       
       
     
@@ -56,7 +78,17 @@ if doTests:
   else:
     printNow("Test 5 failed, turtle in wrong start location.")
   #Test 7, check for colorInFront
-  if colorInFront()=colorInFront():
+  if dir(m).index('colorInFront')>0:
     printNow("Test 7 passed, colorInFront exists.")
   else:
     printNow("Test 7 failed, colorInFront does not exists.")
+  #Test 8, check what color in front returns
+  if m.colorInFront()==white:
+    printNow("Test 8 passed, colorInFront returns white.")
+  else:
+    printNow("Test 8 failed, colorInFront does not return white.")
+  #Test 9, check that colorinfront is blue
+  if m.colorInFront()==blue:
+    printNow("Test 9 passed, colorInFront returns blue.")
+  else:
+    printNow("Test 9 failed, colorInFront does not return blue.")

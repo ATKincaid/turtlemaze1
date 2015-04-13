@@ -13,6 +13,7 @@ class Maze(object):
     turnLeft(self.t)
     forward(self.t,6)
   def colorInFront(self): 
+    
     if self.t.getHeading()==0:
       color=getColor(getPixelAt(self.image,getXPos(self.t),getYPos(self.t)-11))
     if self.t.getHeading()==90 or self.t.getHeading()==-270:
@@ -32,7 +33,11 @@ class Maze(object):
     if distance(color,yellow)<150:
       color=yellow
     return color
-  
+  def travel2BranchOrWall(self):
+    """move straight"""
+  def reset():
+    """reset"""
+    
      
       
       
@@ -92,3 +97,26 @@ if doTests:
     printNow("Test 9 passed, colorInFront returns blue.")
   else:
     printNow("Test 9 failed, colorInFront does not return blue.")
+  #test 10, check for travel2BranchOrWall
+  if dir(m).index('travel2BranchOrWall')>0:
+    printNow("Test 10 passed, travel2BranchOrWall exists.")
+  else:
+    printNow("Test 10 failed, travel2BranchOrWall does not exists.")
+  #test 11, test for reset
+  if dir(m).index('reset')>0:
+    printNow("Test 11 passed, reset exists.")
+  else:
+    printNow("Test 11 failed, reset does not exists.")
+  #Test 12, makes sure maze is in OG condition
+  m.reset()
+  assert m.t.getXPos()==30, "Test 12 failed, x position is " + str(m.t.getXPos())
+  assert m.t.getYPos()==190, "Test 12 failed, y position is " + str(m.t.getYPos())
+  assert m.t.getHeading()==90, "Test 12 failed, heading is " + str(m.t.getHeading())
+  
+  
+  
+  
+  
+  
+  
+  

@@ -9,9 +9,8 @@ class Maze(object):
     self.w.setPicture(self.image)
     self.t=makeTurtle(self.w)
     penUp(self.t)
-    moveTo(self.t,30,190)
-    turnLeft(self.t)
-    forward(self.t,6)
+    moveTo(self.t,26,185)
+    
   def colorInFront(self): 
     
     if self.t.getHeading()==0:
@@ -35,8 +34,19 @@ class Maze(object):
     return color
   def travel2BranchOrWall(self):
     """move straight"""
-  def reset():
+    while self.colorInFront()==white:
+      forward(self.t,1)
+      
+  def reset(self):
     """reset"""
+    self.image=makePicture('maze.jpg')
+    self.w.setPicture(self.image)
+    self.t.clearPath()
+    penUp(self.t)
+    moveTo(self.t,26,185)
+    self.t.setHeading(90)
+    penDown(self.t)
+    
     
      
       
@@ -78,7 +88,7 @@ if doTests:
   except:
      printNow("Test 5 failed, no turtle")
   #Test 6, test for turtle in right location
-  if getXPos(m.t)==30 and getYPos(m.t)==190:
+  if getXPos(m.t)==26 and getYPos(m.t)==185:
     printNow("Test 5 passed, turtle in correct start location.")
   else:
     printNow("Test 5 failed, turtle in wrong start location.")
@@ -109,10 +119,27 @@ if doTests:
     printNow("Test 11 failed, reset does not exists.")
   #Test 12, makes sure maze is in OG condition
   m.reset()
-  assert m.t.getXPos()==30, "Test 12 failed, x position is " + str(m.t.getXPos())
-  assert m.t.getYPos()==190, "Test 12 failed, y position is " + str(m.t.getYPos())
+  assert m.t.getXPos()==26, "Test 12 failed, x position is " + str(m.t.getXPos())
+  assert m.t.getYPos()==185, "Test 12 failed, y position is " + str(m.t.getYPos())
   assert m.t.getHeading()==90, "Test 12 failed, heading is " + str(m.t.getHeading())
-  
+  printNow("Test 12 passed, maze is in original condition")
+  #Test 13, check if we move down first path
+  m.reset()
+  m.travel2BranchOrWall()
+  if getXPos(m.t)==26 and getYPos(m.t)==185:
+    printNow("Test 13 passed, turtle moved to end of first path")
+  else:
+    printNow("Test 13 failed, turtle did not move to end of first path")
+  #Test 14, check if we stop at branch
+  #Test 13, check if we move down first path
+  m.reset()
+  m.t.setHeading(0)
+  m.travel2BranchOrWall()
+  if getXPos(m.t)==26 and getYPos(m.t)==106:
+    printNow("Test 14 passed, turtle stopped at first crossroads")
+  else:
+    printNow("Test 14 failed, turtle did not stop at first crossroads")
+    
   
   
   

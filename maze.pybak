@@ -201,8 +201,12 @@ class Maze(object):
   def forwardd(self,dist):
     """draws green path"""
     for i in range(dist):
-      addOvalFilled(self.image,self.t.getXPos()-9,self.t.getYPos()-9,18,18,green)
-      self.t.forward(1)
+      if self.colorInFront()==green:
+        addOvalFilled(self.image,self.t.getXPos()-9,self.t.getYPos()-9,18,18,red)
+        self.t.forward(1)
+      else:
+        addOvalFilled(self.image,self.t.getXPos()-9,self.t.getYPos()-9,18,18,green)
+        self.t.forward(1)
   
     
   def travel2BranchOrWall(self):
@@ -219,7 +223,21 @@ class Maze(object):
     """solve"""
     if self.colorInFront()==yellow:
       return true
-    
+    for i in range(4):
+      if self.colorInFront()==white:
+        saveX=m.t.getXPos()
+        saveY=m.t.getYPos()
+        saveH=m.t.getHeading()
+        self.travel2BranchOrWall()
+        if self.solve():
+          return true
+        else:
+          penUp(self.t)
+          moveTo(self.t,saveX,saveY)
+          penDown(self.t)
+          self.t.setHeading(saveH)
+      self.t.turnRight()
+    return false
       
     
   
@@ -370,14 +388,24 @@ if doTests:
   m.solve()
   if m.solve()==false:
     printNow("Test 18 passed, solve() false in impossible locations")
-  if m.solve():
-    printNow("Test 18 failed, solve() true in impossible locations")
   else:
     printNow("Test 18 failed.")
-  
-  
-  
-  
-  
+  #Test 19, test for red color
+  m.reset()
+  m.forwardd(50)
+  m.t.turn(180)
+  m.forwardd(50)
+  m.t.turn(180)
+  if m.colorInFront()==red:
+    printNow("Test 19 passed, colorInFront is red")
+  else:
+    printNow("Test 19 failed, colorInFront is " + str(m.colorInFront()))
+  #Test 20, does it work?
+  m.reset()
+  m.solve()
+  if m.solve()==1:
+    printNow("Test 20 passed! You da man!")
+  else:
+    printNow("Test 20 failed because you ain't da man")
   
   
